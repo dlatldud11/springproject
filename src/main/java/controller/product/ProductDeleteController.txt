@@ -1,0 +1,26 @@
+
+public class ProductDeleteController extends SuperClass{
+	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int num = Integer.parseInt( request.getParameter("num") ) ;
+		
+		FlowParameters parameters 
+			= new FlowParameters(
+					request.getParameter("pageNumber"),
+					request.getParameter("pageSize"), 
+					request.getParameter("mode"), 
+					request.getParameter("keyword") ) ;
+	
+		System.out.println( parameters.toString() ); 
+		
+		ProductDao pdao = new ProductDao();		
+		
+		int cnt = -99999;
+		
+		Product bean = pdao.SelectDataByPk(num) ;
+		
+		cnt = pdao.DeleteData( num );
+
+		new ProductListController().doGet(request, response);		
+	}	
+}

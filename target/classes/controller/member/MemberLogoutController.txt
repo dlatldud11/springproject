@@ -1,0 +1,28 @@
+package controller.member;
+
+import java.io.IOException;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import mypkg.bean.Member;
+import controller.common.SuperClass;
+import mypkg.dao.MallDao;
+import mypkg.shopping.MyCartList;
+
+@Controller
+public class MemberLogoutController extends SuperClass{
+	@GetMapping("/logout.me")
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		super.doGet(request, response);
+		
+
+		
+
+	}
+}

@@ -1,0 +1,43 @@
+## Main Section
+main=mypkg.common.MainController
+#### Member Section ######################################################
+login.me=mypkg.member.MemberLoginController
+list.me=mypkg.member.MemberListController
+insert.me=mypkg.member.MemberInsertController
+logout.me=mypkg.member.MemberLogoutController
+idcheck.me=mypkg.member.MemberIdcheckController
+zipcheck.me=mypkg.member.MemberZipcheckController
+detailview.me=mypkg.member.MemberDetailViewController
+update.me=mypkg.member.MemberUpdateController
+delete.me=mypkg.member.MemberDeleteController
+#### Board Section ######################################################
+list.bo=mypkg.board.BoardListController
+insert.bo=mypkg.board.BoardInsertController
+detailview.bo=mypkg.board.BoardDetailViewController
+delete.bo=mypkg.board.BoardDeleteController
+update.bo=mypkg.board.BoardUpdateController
+reply.bo=mypkg.board.BoardReplyController
+#### Product Section ######################################################
+list.pr=mypkg.product.ProductListController
+detailview.pr=mypkg.product.ProductDetailViewController
+insert.pr=mypkg.product.ProductInsertController
+delete.pr=mypkg.product.ProductDeleteController
+update.pr=mypkg.product.ProductUpdateController
+#### Mall Section ######################################################
+insert.mall=mypkg.mall.insert.mallController
+list.mall=mypkg.mall.list.mallController
+calculate.mall=mypkg.mall.calculate.mallController
+delete.mall=mypkg.mall.delete.mallController
+history.mall=mypkg.mall.history.mallController
+detailview.mall=mypkg.mall.detailview.mallController
+#### Join Section ######################################################
+exam01.vw=mypkg.composite.View01Controller
+exam02.vw=mypkg.composite.View02Controller
+exam03.vw=mypkg.composite.View03Controller
+exam04.vw=mypkg.composite.View04Controller
+exam05.vw=mypkg.composite.View05Controller
+#### Comment Section ######################################################
+comList=mypkg.comment.CommentListController
+comInsert=mypkg.comment.CommentInsertController
+comDelete=mypkg.comment.CommentDeleteController
+########################################################################

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MapperComposite">	
+	<select id="SelectDataByPk" parameterType="String" resultType="MyPostcode">
+		select * from  postcodes 
+		where emd_nm like #{dong} or 
+		rd_nm like #{dong} or 
+		search_word like #{dong} 
+		order by si_nm, sgg_nm, rd_nm
+	</select>	
+	<select id="View01" resultType="MyCombo1">
+		select m.name, b.subject, b.content, b.regdate
+		from members m inner join boards b
+		on m.id=b.writer
+	</select>
+	<select id="View02" resultType="MyCombo2">
+		select m.name, count(*) as cnt 
+		from members m inner join boards b
+		 on m.id=b.writer 
+		group by m.name 
+		order by m.name desc
+	</select>
+	<select id="View03" resultType="MyCombo3">
+		select m.name mname, p.name pname, od.qty, p.price, p.price * od.qty as amount 
+		from ((members m inner join orders o 
+		on m.id=o.mid) inner join orderdetails od 
+		on o.oid=od.oid) inner join products p 
+		on od.pnum=p.num  
+		order by p.name desc, m.name asc 
+	</select>
+	<select id="View04" resultType="MyCombo4">
+		select m.id, sum(p.price * od.qty) as sumtotal
+		from ((members m inner join orders o
+		on m.id=o.mid) inner join orderdetails od
+		on o.oid=od.oid) inner join products p
+		on od.pnum=p.num 
+		group by m.id	
+	</select>
+	<select id="View05" resultType="MyCombo5">
+		select m.id, count(mid) as cnt 
+		from members m left outer join orders o 
+		on m.id=o.mid  
+		group by m.id
+	</select>				
+</mapper> 

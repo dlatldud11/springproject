@@ -1,0 +1,48 @@
+package controller.member;
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import mypkg.bean.Member;
+import controller.common.SuperClass;
+import mypkg.dao.MemberDao;
+import mypkg.utility.Paging;
+
+@Controller
+public class MemberListController extends SuperClass{
+	@GetMapping("/list.me")
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		String pageNumber = request.getParameter("pageNumber") ;
+		String pageSize = request.getParameter("pageSize") ;
+		
+		MemberDao dao = new MemberDao();
+		int totalCount = dao.SelectTotalCount(); //1008 ;
+		System.out.println( "토탈  카운터 : " + totalCount);
+				
+		String contextPath = request.getContextPath()  ;
+		String myurl = contextPath + "/Shopping?command=list.me" ;
+		
+		String mode = null ;
+		String keyword = null ;
+		Paging pageInfo = 
+				new Paging(pageNumber, pageSize, totalCount, myurl, mode, keyword) ;
+		
+		List<Member> lists 
+				= dao.SelectDataList(pageInfo.getBeginRow(), pageInfo.getEndRow()) ;		
+		
+		model.addAttribute("lists", lists);
+		model.addAttribute("pagingHtml", pageInfo.getPagingHtml());
+		model.addAttribute("pagingStatus", pageInfo.getPagingStatus());
+		
+		super.doGet(request, response);
+		
+		String url = "/member/list.me.jsp";		
+		super.GotoPage( url );  	
+	}
+}

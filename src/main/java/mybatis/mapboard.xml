@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MapperBoard">
+	<select id="SelectTotalCount" resultType="int">
+		select count(*) as cnt from boards	
+		<if test="mode == 'writer'">
+			where writer like #{keyword}
+		</if>
+		<if test="mode == 'subject'">
+			where subject like #{keyword}
+		</if>
+		<if test="mode == 'content'">
+			where content like #{keyword}
+		</if>
+	</select>
+	<sql id="myselect">
+		select no, subject, writer, password, content, readhit, regdate, remark, groupno, orderno, depth
+		from boards
+	</sql> 	
+	<select id="SelectDataList" resultType="MyBoard">
+		<include refid="myselect" />
+		<if test="mode == 'writer'">
+			where writer like #{keyword}
+		</if>
+		<if test="mode == 'subject'">
+			where subject like #{keyword}
+		</if>
+		<if test="mode == 'content'">
+			where content like #{keyword}
+		</if>
+		order by groupno desc, orderno asc
+	</select>	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from boards
+		<if test="what == 'albumname'">
+			where albumname like #{keyword}
+		</if>		
+		<if test="what == 'song'">
+			where song like #{keyword}
+		</if>	
+	</select>
+	<select id="SelectDataByPk" parameterType="Integer" resultType="MyBoard">
+		<include refid="myselect" />
+		 where no = #{no}
+	</select>	
+	<update id="UpdateReadhit" parameterType="int">
+		update boards set readhit = readhit + 1 
+		where no = #{no}
+	</update>	
+	<update id="UpdateData" parameterType="MyBoard">
+		update boards set 
+		content=#{content}, password=#{password}, 
+		regdate=to_date(#{regdate}, 'yyyy/mm/dd'), 
+		subject=#{subject}, writer=#{writer}
+		where no = #{no} 
+	</update>	
+	<delete id="DeleteData" parameterType="int">
+		delete from boards where no = #{no} 
+	</delete>	
+	<insert id="InsertData" parameterType="MyBoard">
+		insert into 
+		boards(no, subject, writer, password, content, readhit, regdate, groupno, orderno, depth)		
+		values(myboard.nextval, #{subject}, #{writer}, #{password}, #{content}, default, to_date(#{regdate}, 'yyyy/MM/dd'), myboard.currval, default, default)
+	</insert>
+	<insert id="ReplyDataInsert" parameterType="MyBoard">
+		insert into 
+		boards(no, subject, writer, password, content, readhit, regdate, groupno, orderno, depth)
+		values(myboard.nextval, #{subject}, #{writer}, #{password}, #{content}, default, to_date(#{regdate}, 'yyyy/MM/dd'), #{groupno}, #{orderno}, #{depth}) 
+	</insert>
+	<update id="ReplyDataUpdate">
+		update boards set 
+		orderno = orderno + 1 
+		where groupno = #{groupno} and orderno > #{orderno}		
+	</update>	
+</mapper>

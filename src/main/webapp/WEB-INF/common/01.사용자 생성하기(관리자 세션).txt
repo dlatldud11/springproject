@@ -1,0 +1,10 @@
+-- 사용자 삭제
+-- drop user newman cascade ;
+
+-- 사용자 생성
+create user newman identified by oracle account unlock ;
+
+alter user newman default tablespace users ;
+
+-- 권한 부여하기
+grant connect, resource to newman ;

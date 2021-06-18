@@ -1,0 +1,22 @@
+-- 회원 '홍길동'의 마일리지를 초기화 시킵니다.
+update members set mpoint = 0 where id = 'hong' ;
+ 
+-- 상품 재고 및 적립 포인트를 변경합니다. 
+update products set stock = 100 where num in(1, 2, 3) ;
+update products set point = 10 where num in(1) ;
+update products set point = 20 where num in(2) ;
+update products set point = 30 where num in(3) ;
+
+-- 모든 주문 내역을 삭제합니다.
+delete from orders ;
+delete from orderdetails ;
+commit ;
+
+select id, name, mpoint from members where id = 'hong' ;
+
+select num, name, stock, point from products 
+where num in(1, 2, 3) ;
+
+select * from orders ;
+
+select * from orderdetails ;

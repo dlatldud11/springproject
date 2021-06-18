@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MapperProduct">
+	<insert id="InsertData" parameterType="MyProduct">
+		insert into products(num, name, company, image, stock, price, category, contents, point, inputdate)
+		values(seqprod.nextval, #{name}, #{company}, #{image}, #{stock}, #{price}, #{category}, #{contents}, #{point}, to_date(#{inputdate}, 'yyyy/MM/dd'))
+	</insert>
+	<select id="SelectTotalCount" resultType="int">
+		select count(*) as cnt from products	
+		<if test="mode == 'name'">
+			where name like #{keyword}
+		</if>
+		<if test="mode == 'company'">
+			where company like #{keyword}
+		</if>
+		<if test="mode == 'category'">
+			where category like #{keyword}
+		</if>
+	</select>	
+	<sql id="myselect">
+		select num, name, company, image, stock, price, category, contents, point, inputdate
+		from products
+	</sql> 		
+	<select id="SelectDataList" resultType="MyProduct">
+		<include refid="myselect" />
+		<if test="mode == 'name'">
+			where name like #{keyword}
+		</if>
+		<if test="mode == 'company'">
+			where company like #{keyword}
+		</if>
+		<if test="mode == 'category'">
+			where category like #{keyword}
+		</if>
+		order by num desc
+	</select>
+	<select id="SelectDataByPk" parameterType="Integer" resultType="MyProduct">
+		<include refid="myselect" />
+		 where num = #{num}
+	</select>
+	<update id="UpdateData" parameterType="MyProduct">n
+		update products set
+		name=#{name}, company=#{company}, image=#{image}, stock=#{stock}, price=#{price},
+		category=#{category}, contents=#{contents}, point=#{point}, inputdate=to_date(#{inputdate}, 'yyyy/MM/dd')  
+		where num = #{num}
+	</update>	
+	<delete id="DeleteData" parameterType="int">
+		delete from products where num = #{num} 
+	</delete>	
+	<update id="UpdateRemark" parameterType="String">
+		update orderdetails set remark = #{remark}dd
+	</update>	
+</mapper>
+		

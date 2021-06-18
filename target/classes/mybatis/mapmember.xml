@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MapperMember">
+	<insert id="InsertData" parameterType="MyMember">
+		insert into members(id, name, password, salary, hiredate, gender, hobby, job, zipcode, address1, address2, mpoint) 
+		values(#{id}, #{name}, #{password}, #{salary}, to_date(#{hiredate}, 'yyyy/MM/dd'), #{gender}, #{hobby}, #{job}, #{zipcode}, #{address1}, #{address2},#{mpoint})
+	</insert>
+	<sql id="myselect">
+		select *
+		from members
+	</sql>
+	<select id="SelectData" resultType="MyMember">
+		<include refid="myselect" />
+		where id = #{id} and password = #{password}
+	</select>	
+	<select id="SelectDataByPk" parameterType="String" resultType="MyMember">
+		<include refid="myselect" />
+		 where id = #{id}
+	</select>
+	<update id="UpdateData" parameterType="MyMember">
+		update members set		
+		name = #{name},
+		password = #{password},
+		salary = #{salary},
+		hiredate = #{hiredate},
+		gender = #{gender},
+		hobby = #{hobby},
+		job = #{job},
+		zipcode = #{zipcode},
+		address1 = #{address1},
+		address2 = #{address2},	
+		mpoint = #{mpoint}
+		where id = #{id}
+	</update>		
+	<select id="SelectDataList" resultType="MyMember">
+		select id, name, password, salary, hiredate, gender, hobby, job, zipcode, address1, address2, mpoint
+		from members
+	</select>	
+	<select id="SelectTotalCount" resultType="int">
+		select count(*) as cnt from members
+	</select>	
+	<select id="GetList" parameterType="String" resultType="MyCheckBean">
+		select *
+		from checkes
+		where module = #{module} and field = #{field} and kind = #{kind}
+		order by mykey asc
+	</select>
+	
+	<!-- 회원 탈퇴와 관련된 항목들 -->
+	<update id="UpdateBoardRemark" parameterType="String">
+		update boards set remark = #{remark} 
+		where writer = #{writer}
+	</update>
+	<update id="UpdateOrderRemark" parameterType="String">
+		update orders set remark = #{remark} 
+		where mid = #{mid}
+	</update>	
+	<delete id="DeleteData" parameterType="String">
+		delete from members
+	 	where id = #{id}
+	</delete>	
+	
+	<!-- 회원 로그 아웃과 관련된 항목들 -->
+	<delete id="DeleteShoppingInfo" parameterType="String">
+		delete from shoppinginfos				
+		where mid = #{mid}
+	</delete>
+	<insert id="InsertShoppingInfo" parameterType="MyShoppingInfo">
+		insert into shoppinginfos(mid, pnum, pname, qty, price, image, point)
+		values(#{mid}, #{pnum}, #{pname}, #{qty}, #{price}, #{image}, #{point})		
+	</insert>		
+</mapper>
